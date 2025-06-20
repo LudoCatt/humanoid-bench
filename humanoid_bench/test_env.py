@@ -50,7 +50,9 @@ if __name__ == "__main__":
         print(f"ob_space = {env.observation_space}, ob = {ob.shape}")
     print(f"ac_space = {env.action_space.shape}")
 
-    img = env.unwrapped.sim.render(camera_name=None, width=args.width, height=args.height, depth=False)
+    img = env.render()
+    # Resize the image afterwards since can't seem to be able to do better
+    img = cv2.resize(img, (args.width, args.height), interpolation=cv2.INTER_CUBIC)
     rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     cv2.imwrite("test_env_img.png", rgb_img)
 
@@ -73,12 +75,13 @@ if __name__ == "__main__":
             assert env.observation_space.shape == ob.shape
         print(f"ac_space = {env.action_space.shape}")
         # print("observation:", ob)
-        env.unwrapped.sim.render(camera_name=None, width=args.width, height=args.height, depth=False)
+        env.render()
         ret = 0
         while True:
             action = env.action_space.sample()
             ob, rew, terminated, truncated, info = env.step(action)
-            img = env.unwrapped.sim.render(camera_name=None, width=args.width, height=args.height, depth=False)
+            img = env.render()
+            img = cv2.resize(img, (args.width, args.height), interpolation=cv2.INTER_CUBIC)
             ret += rew
 
             if args.render_mode == "rgb_array":
@@ -100,7 +103,8 @@ if __name__ == "__main__":
         for t in range(args.steps):
             action = env.action_space.sample()
             ob, rew, terminated, truncated, info = env.step(action)
-            img = env.unwrapped.sim.render(camera_name=None, width=args.width, height=args.height, depth=False)
+            img = env.render()
+            img = cv2.resize(img, (args.width, args.height), interpolation=cv2.INTER_CUBIC)
             ret += rew
 
             if args.save_video:
