@@ -1,13 +1,13 @@
 #!/bin/bash
 #SBATCH --account=ls_krausea
-#SBATCH --job-name=reach
+#SBATCH --job-name=crawl
 #SBATCH --partition=gpu
 #SBATCH --time=24:00:00
 #SBATCH --ntasks=1
 #SBATCH --gpus=rtx_4090:1
 #SBATCH --mem-per-cpu=16G
-#SBATCH --output=logs/reach.txt
-#SBATCH --error=logs/reach_err.txt
+#SBATCH --output=logs/crawl.txt
+#SBATCH --error=logs/crawl_err.txt
 
 module purge
 module load stack/2024-06
@@ -33,10 +33,10 @@ print("cuDNN @", ctypes.CDLL("libcudnn.so.9")._name)
 PY
 
 # Experiment parameters
-TASK="h1-reach-v0"
+TASK="h1-crawl-v0"
 SEED=0
 STEPS=10_000_000
-SAVE=200000
+SAVE=1800
 EVAL=1000000
 LOGDIR=/cluster/scratch/lcattaneo/DreamerV3/${TASK}/seed${SEED}
 mkdir -p "$LOGDIR"
