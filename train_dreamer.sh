@@ -1,13 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=stand
+#SBATCH --account=ls_krausea
+#SBATCH --job-name=reach
 #SBATCH --partition=gpu
 #SBATCH --time=24:00:00
-#SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --gpus=rtx_4090:1
-#SBATCH --mem-per-cpu=50G
-#SBATCH --output=logs/stand.txt
-#SBATCH --error=logs/stand_err.txt
+#SBATCH --mem-per-cpu=16G
+#SBATCH --output=logs/reach.txt
+#SBATCH --error=logs/reach_err.txt
 
 module purge
 module load stack/2024-06
@@ -33,7 +33,7 @@ print("cuDNN @", ctypes.CDLL("libcudnn.so.9")._name)
 PY
 
 # Experiment parameters
-TASK="h1-stand-v0"
+TASK="h1-reach-v0"
 SEED=0
 STEPS=10_000_000
 SAVE=200000
