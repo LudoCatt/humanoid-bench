@@ -5,7 +5,7 @@
 #SBATCH --time=24:00:00
 #SBATCH --ntasks=1
 #SBATCH --gpus=rtx_4090:1
-#SBATCH --mem-per-cpu=16G
+#SBATCH --mem-per-cpu=32G
 #SBATCH --output=logs/crawl.txt
 #SBATCH --error=logs/crawl_err.txt
 
@@ -25,12 +25,6 @@ export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$CONDA_PREFIX/lib64:$LD_LIBRARY_PATH"
 export MUJOCO_GL=egl
 export XLA_PYTHON_CLIENT_PREALLOCATE=false
 export XLA_FLAGS=--xla_gpu_autotune_level=2
-
-# Sanity check
-python - <<'PY'
-import ctypes, sys
-print("cuDNN @", ctypes.CDLL("libcudnn.so.9")._name)
-PY
 
 # Experiment parameters
 TASK="h1-crawl-v0"

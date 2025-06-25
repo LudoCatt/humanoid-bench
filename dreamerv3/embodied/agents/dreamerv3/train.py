@@ -5,6 +5,9 @@ import sys
 import warnings
 from functools import partial as bind
 
+import faulthandler, signal
+faulthandler.register(signal.SIGUSR1)      
+
 # def warn_with_traceback(
 #       message, category, filename, lineno, file=None, line=None):
 #   log = file if hasattr(file, 'write') else sys.stderr
@@ -49,7 +52,9 @@ def main(argv=None):
         batch_size=config.batch_size,
         batch_length=config.batch_length,
     )
-    print("Run script:", args.script)
+    # print("Run script:", args.script)
+    print(f"Run script: {args.script}   (PID {os.getpid()})")
+    print(f"To dump a live stack trace:  kill -SIGUSR1 {os.getpid()}")
 
     logdir = embodied.Path(args.logdir)
     if args.script != "parallel_env":

@@ -39,13 +39,21 @@ class Config(dict):
 
     @classmethod
     def load(cls, filename):
+        # This first line stays the same.
         filename = path.Path(filename)
+
+        # The rest of the function is replaced with this robust version.
         if filename.suffix == ".json":
-            return cls(json.loads(filename.read_text()))
+            # Convert the path object to a string and use standard file reading.
+            with open(str(filename), 'r') as f:
+                return cls(json.loads(f.read()))
+
         elif filename.suffix in (".yml", ".yaml"):
             from ruamel.yaml import YAML
-
-            return cls(YAML(typ="safe", pure=True).load(filename.read_text()))
+            # Convert the path object to a string and use standard file reading.
+            with open(str(filename), 'r') as f:
+                return cls(YAML(typ="safe", pure=True).load(f))
+                
         else:
             raise NotImplementedError(filename.suffix)
 
