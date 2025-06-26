@@ -1,13 +1,13 @@
 #!/bin/bash
 #SBATCH --account=ls_krausea
-#SBATCH --job-name=crawl
+#SBATCH --job-name=test
 #SBATCH --partition=gpu
-#SBATCH --time=4:00:00
+#SBATCH --time=1:00:00
 #SBATCH --ntasks=1
 #SBATCH --gpus=rtx_4090:1
 #SBATCH --mem-per-cpu=32G
-#SBATCH --output=logs/crawl.txt
-#SBATCH --error=logs/crawl_err.txt
+#SBATCH --output=logs/test_out.txt
+#SBATCH --error=logs/test_err.txt
 
 module purge
 module load stack/2024-06
@@ -27,4 +27,9 @@ export XLA_PYTHON_CLIENT_PREALLOCATE=false
 export XLA_FLAGS=--xla_gpu_autotune_level=2
 
 # Evaluate
-python generate_video.py --logdir /cluster/scratch/lcattaneo/DreamerV3/h1-walk-v0/seed0
+python test_policy.py --logdir /cluster/scratch/lcattaneo/DreamerV3/h1-walk-v0/seed1
+python test_policy.py --logdir /cluster/scratch/lcattaneo/DreamerV3/h1-stand-v0/seed1
+python test_policy.py --logdir /cluster/scratch/lcattaneo/DreamerV3/h1-reach-v0/seed1
+python test_policy.py --logdir /cluster/scratch/lcattaneo/DreamerV3/h1-sit_simple-v0/seed1
+python test_policy.py --logdir /cluster/scratch/lcattaneo/DreamerV3/h1-pole-v0/seed1
+python test_policy.py --logdir /cluster/scratch/lcattaneo/DreamerV3/h1-crawl-v0/seed1

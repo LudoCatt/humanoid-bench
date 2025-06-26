@@ -6,7 +6,7 @@
 #SBATCH --ntasks=1
 #SBATCH --gpus=rtx_4090:1
 #SBATCH --mem-per-cpu=32G
-#SBATCH --output=logs/crawl.txt
+#SBATCH --output=logs/crawl_out.txt
 #SBATCH --error=logs/crawl_err.txt
 
 module purge
@@ -28,7 +28,7 @@ export XLA_FLAGS=--xla_gpu_autotune_level=2
 
 # Experiment parameters
 TASK="h1-crawl-v0"
-SEED=0
+SEED=1
 STEPS=10_000_000
 SAVE=1800
 EVAL=1000000
